@@ -1,9 +1,9 @@
-import { api } from './client'
 import type { ApiResponse, LoginRequest, LoginResponse } from '../types'
+import { api } from './client'
 
 export async function login(credentials: LoginRequest): Promise<LoginResponse> {
-  const { data } = await api.post<LoginResponse>('/auth/login', credentials)
-  return data
+  const { data } = await api.post<ApiResponse<LoginResponse>>('/auth/login', credentials)
+  return data.data
 }
 
 export async function getPanels(): Promise<string[]> {
