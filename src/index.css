@@ -217,13 +217,15 @@ a:hover {
 /* Layout */
 .wrapper {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .main-sidebar {
   width: 260px;
   flex-shrink: 0;
+  height: 100vh;
   background-color: hsl(var(--background));
   border-inline-end: 1px solid hsl(var(--border));
   display: flex;
@@ -239,11 +241,13 @@ a:hover {
   font-weight: 600;
   border-bottom: 1px solid hsl(var(--border));
   color: hsl(var(--foreground));
+  flex-shrink: 0;
 }
 
 .sidebar-nav {
   flex: 1;
   padding: 1rem 0.75rem;
+  overflow-y: auto;
 }
 
 .sidebar-nav ul {
@@ -292,6 +296,7 @@ a:hover {
 .sidebar-footer {
   padding: 1rem;
   border-top: 1px solid hsl(var(--border));
+  flex-shrink: 0;
 }
 
 .content-wrapper {
@@ -299,6 +304,8 @@ a:hover {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
   background-color: hsl(var(--secondary) / 0.3);
 }
 

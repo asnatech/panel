@@ -27,14 +27,22 @@ export function OrderDetailPage() {
   useEffect(() => {
     if (!orderId) return
     getOrder(orderId)
-      .then(setOrder)
-      .catch(() => setError('Failed to load order details.'))
+      .then((data) => {
+        setOrder(data)
+        if (data.status === 'document_issued') {
+          getOrderDocuments(orderId)
+            .then(setDocuments)
+            .catch(() => console.error('Failed to load documents'))
+            .finally(() => setDocsLoading(false))
+        } else {
+          setDocsLoading(false)
+        }
+      })
+      .catch(() => {
+        setError('Failed to load order details.')
+        setDocsLoading(false)
+      })
       .finally(() => setLoading(false))
-
-    getOrderDocuments(orderId)
-      .then(setDocuments)
-      .catch(() => console.error('Failed to load documents'))
-      .finally(() => setDocsLoading(false))
   }, [orderId])
 
   async function handleVerify() {
@@ -134,47 +142,49 @@ export function OrderDetailPage() {
         </div>
       )}
 
-      <div className="card">
-        <div className="card-header">{t('order.documents')}</div>
-        <div className="card-body table-responsive">
-          {docsLoading ? (
-            <div>{t('common.loading')}</div>
-          ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>{t('doc.id')}</th>
-                  <th>{t('doc.registerDate')}</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                {documents.length === 0 ? (
+      {order.status === 'document_issued' && (
+        <div className="card">
+          <div className="card-header">{t('order.documents')}</div>
+          <div className="card-body table-responsive">
+            {docsLoading ? (
+              <div>{t('common.loading')}</div>
+            ) : (
+              <table className="table">
+                <thead>
                   <tr>
-                    <td colSpan={3} className="text-muted">No documents found.</td>
+                    <th>{t('doc.id')}</th>
+                    <th>{t('doc.registerDate')}</th>
+                    <th />
                   </tr>
-                ) : (
-                  documents.map((doc) => (
-                    <tr key={doc.id}>
-                      <td>{doc.id}</td>
-                      <td>{formatDate(doc.register_date)}</td>
-                      <td className="text-right">
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-ghost"
-                          onClick={() => navigate(`/documents/${doc.id}`)}
-                        >
-                          {t('common.view')}
-                        </button>
-                      </td>
+                </thead>
+                <tbody>
+                  {documents.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="text-muted">No documents found.</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          )}
+                  ) : (
+                    documents.map((doc) => (
+                      <tr key={doc.id}>
+                        <td>{doc.id}</td>
+                        <td>{formatDate(doc.register_date)}</td>
+                        <td className="text-right">
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-ghost"
+                            onClick={() => navigate(`/documents/${doc.id}`)}
+                          >
+                            {t('common.view')}
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
