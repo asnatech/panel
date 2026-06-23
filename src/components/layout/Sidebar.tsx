@@ -1,15 +1,17 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useI18n } from '../../context/I18nContext'
 import { PANEL_CONFIG } from '../../utils/panels'
 import type { PanelId } from '../../types'
 
 export function Sidebar() {
-  const { panels } = useAuth()
+  const { panels, logout } = useAuth()
+  const { t } = useI18n()
 
   return (
     <aside className="main-sidebar">
       <div className="brand-link">
-        <span className="brand-text">Asnatech Panel</span>
+        <span className="brand-text">{t('app.title')}</span>
       </div>
       <nav className="sidebar-nav">
         <ul>
@@ -23,13 +25,18 @@ export function Sidebar() {
                   className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
                 >
                   <span className="nav-icon">{config.icon}</span>
-                  <span>{config.label}</span>
+                  <span>{t(`nav.${panelId}`)}</span>
                 </NavLink>
               </li>
             )
           })}
         </ul>
       </nav>
+      <div className="sidebar-footer" style={{ padding: '20px' }}>
+        <button type="button" className="btn btn-outline-light btn-sm" onClick={logout} style={{ width: '100%' }}>
+          {t('nav.logout')}
+        </button>
+      </div>
     </aside>
   )
 }
