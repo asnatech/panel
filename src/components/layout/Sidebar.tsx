@@ -33,7 +33,7 @@ export function Sidebar() {
         </ul>
       </nav>
       <div className="sidebar-footer" style={{ padding: '20px' }}>
-        <button type="button" className="btn btn-outline-light btn-sm" onClick={logout} style={{ width: '100%' }}>
+        <button type="button" className="btn btn-outline btn-sm" onClick={logout} style={{ width: '100%' }}>
           {t('nav.logout')}
         </button>
       </div>

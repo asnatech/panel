@@ -3,6 +3,7 @@ import { Layout } from './components/layout/Layout'
 import { HomeRedirect, PanelGuard, ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import { I18nProvider } from './context/I18nContext'
+import { ThemeProvider } from './context/ThemeContext'
 import { DocumentDetailPage } from './pages/DocumentDetailPage'
 import { DocumentsPage } from './pages/DocumentsPage'
 import { LoginPage } from './pages/LoginPage'
@@ -13,9 +14,10 @@ import { UserMappingPage } from './pages/UserMappingPage'
 
 export default function App() {
   return (
-    <I18nProvider>
-      <AuthProvider>
-        <BrowserRouter>
+    <ThemeProvider>
+      <I18nProvider>
+        <AuthProvider>
+          <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route element={<ProtectedRoute />}>
@@ -42,5 +44,6 @@ export default function App() {
         </BrowserRouter>
       </AuthProvider>
     </I18nProvider>
+    </ThemeProvider>
   )
 }

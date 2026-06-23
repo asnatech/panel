@@ -6,9 +6,11 @@ import { Loading } from '../components/Loading'
 import { StatusBadge } from '../components/StatusBadge'
 import type { OrderListItem } from '../types'
 import { formatDate } from '../utils/panels'
+import { useI18n } from '../context/I18nContext'
 
 export function OrdersPage() {
   const navigate = useNavigate()
+  const { t } = useI18n()
   const [orders, setOrders] = useState<OrderListItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -20,13 +22,13 @@ export function OrdersPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return <Loading message="Loading orders..." />
+  if (loading) return <Loading message={t('common.loading')} />
   if (error) return <ErrorAlert message={error} />
 
   return (
     <div className="page">
       <div className="content-header">
-        <h1>Orders</h1>
+        <h1>{t('nav.orders')}</h1>
       </div>
       <div className="card">
         <div className="card-body table-responsive">
@@ -34,8 +36,8 @@ export function OrdersPage() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Register Date</th>
-                <th>Status</th>
+                <th>{t('order.registerDate')}</th>
+                <th>{t('common.status')}</th>
                 <th />
               </tr>
             </thead>
@@ -57,10 +59,10 @@ export function OrdersPage() {
                     <td className="text-right">
                       <button
                         type="button"
-                        className="btn btn-sm btn-primary"
+                        className="btn btn-sm btn-ghost"
                         onClick={() => navigate(`/orders/${order.id}`)}
                       >
-                        View
+                        {t('common.view')}
                       </button>
                     </td>
                   </tr>

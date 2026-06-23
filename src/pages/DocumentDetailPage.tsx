@@ -5,10 +5,12 @@ import { ErrorAlert } from '../components/Alert'
 import { Loading } from '../components/Loading'
 import type { DocumentDetail } from '../types'
 import { formatDate } from '../utils/panels'
+import { useI18n } from '../context/I18nContext'
 
 export function DocumentDetailPage() {
   const { id } = useParams<{ id: string }>()
   const documentId = Number(id)
+  const { t } = useI18n()
   const [document, setDocument] = useState<DocumentDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -38,7 +40,7 @@ export function DocumentDetailPage() {
     }
   }
 
-  if (loading) return <Loading message="Loading document..." />
+  if (loading) return <Loading message={t('common.loading')} />
   if (error && !document) return <ErrorAlert message={error} />
   if (!document) return <ErrorAlert message="Document not found." />
 
@@ -49,9 +51,9 @@ export function DocumentDetailPage() {
       <div className="content-header">
         <div>
           <Link to="/documents" className="back-link">
-            ← Back to Documents
+            ← {t('common.back')}
           </Link>
-          <h1>Document #{document.id}</h1>
+          <h1>{t('nav.documents')} #{document.id}</h1>
         </div>
         <button
           type="button"
@@ -59,24 +61,24 @@ export function DocumentDetailPage() {
           onClick={handlePdf}
           disabled={pdfLoading}
         >
-          {pdfLoading ? 'Loading PDF...' : 'Print / PDF'}
+          {pdfLoading ? t('common.loading') : 'Print / PDF'}
         </button>
       </div>
 
       {error && <ErrorAlert message={error} onDismiss={() => setError(null)} />}
 
       <div className="card">
-        <div className="card-header">Overview</div>
+        <div className="card-header">{t('order.overview')}</div>
         <div className="card-body">
           <div className="detail-grid">
-            <DetailItem label="Order ID" value={document.order_id} />
-            <DetailItem label="Register Date" value={formatDate(document.register_date)} />
+            <DetailItem label={t('doc.orderId')} value={document.order_id} />
+            <DetailItem label={t('doc.registerDate')} value={formatDate(document.register_date)} />
             <DetailItem label="Document Number" value={crm.ApiDocNumber} />
-            <DetailItem label="Operation" value={crm.ApiOpr} />
+            <DetailItem label={t('order.operation')} value={crm.ApiOpr} />
             <DetailItem label="Warehouse" value={crm.ApiWH} />
-            <DetailItem label="Company" value={crm.ApiCompany} />
-            <DetailItem label="Contact Person" value={crm.ApiCompanyPerson} />
-            <DetailItem label="Project" value={crm.ApiProject} />
+            <DetailItem label={t('order.company')} value={crm.ApiCompany} />
+            <DetailItem label={t('order.contactPerson')} value={crm.ApiCompanyPerson} />
+            <DetailItem label={t('order.project')} value={crm.ApiProject} />
             <DetailItem label="Edited By" value={crm.ApiEditUser} />
             <DetailItem label="First Registered By" value={crm.ApiFirstRegisterUser} />
             <DetailItem label="First Register Date" value={crm.ApiFirstRegisterDate} />

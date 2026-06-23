@@ -161,7 +161,7 @@ export function OrderDetailPage() {
                       <td className="text-right">
                         <button
                           type="button"
-                          className="btn btn-sm btn-primary"
+                          className="btn btn-sm btn-ghost"
                           onClick={() => navigate(`/documents/${doc.id}`)}
                         >
                           {t('common.view')}

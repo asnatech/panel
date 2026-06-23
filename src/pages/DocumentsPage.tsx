@@ -5,9 +5,11 @@ import { ErrorAlert } from '../components/Alert'
 import { Loading } from '../components/Loading'
 import type { DocumentListItem } from '../types'
 import { formatDate } from '../utils/panels'
+import { useI18n } from '../context/I18nContext'
 
 export function DocumentsPage() {
   const navigate = useNavigate()
+  const { t } = useI18n()
   const [documents, setDocuments] = useState<DocumentListItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -19,22 +21,22 @@ export function DocumentsPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) return <Loading message="Loading documents..." />
+  if (loading) return <Loading message={t('common.loading')} />
   if (error) return <ErrorAlert message={error} />
 
   return (
     <div className="page">
       <div className="content-header">
-        <h1>Documents</h1>
+        <h1>{t('nav.documents')}</h1>
       </div>
       <div className="card">
         <div className="card-body table-responsive">
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Order ID</th>
-                <th>Register Date</th>
+                <th>{t('doc.id')}</th>
+                <th>{t('doc.orderId')}</th>
+                <th>{t('doc.registerDate')}</th>
                 <th />
               </tr>
             </thead>
@@ -54,10 +56,10 @@ export function DocumentsPage() {
                     <td className="text-right">
                       <button
                         type="button"
-                        className="btn btn-sm btn-primary"
+                        className="btn btn-sm btn-ghost"
                         onClick={() => navigate(`/documents/${doc.id}`)}
                       >
-                        View
+                        {t('common.view')}
                       </button>
                     </td>
                   </tr>
