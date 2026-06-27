@@ -6,6 +6,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+ENV VITE_API_BASE_URL=https://api.fobex.ir
 RUN npm run build
 
 # ------------------------------------------- Runtime
