@@ -1,4 +1,3 @@
-
 # ------------------------------------------- Builder
 
 FROM node:26.3.1-alpine3.23 AS builder
@@ -6,7 +5,10 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-ENV VITE_API_BASE_URL=https://api.fobex.ir
+
+ARG BASE_URL
+ENV VITE_BASE_URL=$BASE_URL
+
 RUN npm run build
 
 # ------------------------------------------- Runtime
