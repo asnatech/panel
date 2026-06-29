@@ -24,9 +24,11 @@ I have 3 access roles: `admin`, `verifier` and `constructor`
   - click a document and see the detail of the document
   - there's a print or pdf button which calls the pdf api of backend to retrieve the pdf file
 
-The panel should also contains a logout botton.
+The panel should also contains a logout botton at the bottom of the tabbar.
 
-For the design of website I want simple and good like from the examples in `https://adminlte.io/`
+Also The pannel should have i18n (english/persian) with ltr and rtl handling
+
+For the design of website I want an awesome one.
 
 ## Backend APIs
 
